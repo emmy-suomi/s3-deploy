@@ -1,5 +1,7 @@
 # AWS S3 Deploy GitHub Action
 
+This is forked from [lbertenasco/s3-deploy@v1](https://github.com/marketplace/actions/s3-and-cloudfront-deploy).
+
 ### Easily deploy a static website to AWS S3 and invalidate CloudFront distribution
 
 This action is based on the work done by import-io on [s3-deploy](https://github.com/import-io/s3-deploy#readme).
@@ -9,12 +11,13 @@ This action is based on the work done by import-io on [s3-deploy](https://github
 You can use this action by referencing the v1 branch
 
 ```yaml
-uses: lbertenasco/s3-deploy@v1
+uses: emmy-suomi/s3-deploy@v1
 with:
     folder: build
     bucket: ${{ secrets.S3_BUCKET }}
     dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-    invalidation: / *
+    invalidation: /*
+    cacheControl: 'public, max-age=86400, s-max-age=31536000'
 ```
 
 ## Arguments
@@ -27,6 +30,7 @@ S3 Deploy's Action supports four inputs from the user: `folder`, `bucket`, `dist
 | `bucket`  | The destination bucket | *Required*
 | `dist-id`  | The CloudFront Distribution ID to invalidate | *Required*
 | `invalidation`  | The CloudFront Distribution path(s) to invalidate | *Required*
+| `cacheControl`  | The cache-control of the files to be uploaded to the bucket | *Required*
 
 ### Example `workflow.yml` with S3 Deploy Action
 
@@ -50,12 +54,14 @@ jobs:
           run: yarn build
 
         - name: Deploy
-          uses: lbertenasco/s3-deploy@v1
+          uses: emmy-suomi/s3-deploy@v1
           with:
             folder: build
             bucket: ${{ secrets.S3_BUCKET }}
             dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-            invalidation: / *
+            invalidation: /*
+            cacheControl: 'public, max-age=86400, s-max-age=31536000'
+
 ```
 
 ## License
