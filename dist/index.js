@@ -980,8 +980,9 @@ async function run() {
     const bucket = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('bucket');
     const distId = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('dist-id');
     const invalidation = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('invalidation');
+    const cacheControl = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('cacheControl');
 
-    await _deploy__WEBPACK_IMPORTED_MODULE_1___default()(folder, bucket, distId, invalidation);
+    await _deploy__WEBPACK_IMPORTED_MODULE_1___default()(folder, bucket, distId, invalidation, cacheControl);
   }
   catch (error) {
     Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
@@ -1013,7 +1014,7 @@ module.exports = require("assert");
 const path = __webpack_require__(622);
 const exec = __webpack_require__(986);
 
-let deploy = function (folder, bucket, distId, invalidation) {
+let deploy = function (folder, bucket, distId, invalidation, cacheControl) {
   return new Promise((resolve, reject) => {
     try {
       const command = `npx s3-deploy@1.4.0 ./** \
@@ -1021,9 +1022,10 @@ let deploy = function (folder, bucket, distId, invalidation) {
                         --cwd . \
                         --distId ${distId} \
                         --etag \
+                        --deleteRemoved \
                         --gzip xml,html,htm,js,css,ttf,otf,svg,txt \
                         --invalidate "${invalidation}" \
-                        --noCache `;
+                        --cacheControl "${cacheControl}" `;
 
       const cwd = path.resolve(folder);
       exec.exec(command, [], { cwd }).then(resolve).catch(reject);

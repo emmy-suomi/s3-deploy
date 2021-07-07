@@ -13,6 +13,9 @@ inputs:
   invalidation:
     description: 'AWS CloudFront invalidation path(s)'
     required: true
+  cacheControl:
+    description: 'Cache-Control header of the files to be uploaded to the bucket'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

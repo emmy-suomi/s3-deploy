@@ -7,8 +7,9 @@ async function run() {
     const bucket = getInput('bucket');
     const distId = getInput('dist-id');
     const invalidation = getInput('invalidation');
+    const cacheControl = getInput('cacheControl');
 
-    await deploy(folder, bucket, distId, invalidation);
+    await deploy(folder, bucket, distId, invalidation, cacheControl);
   }
   catch (error) {
     setFailed(error.message);
