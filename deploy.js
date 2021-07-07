@@ -9,7 +9,6 @@ let deploy = function (folder, bucket, distId, invalidation, cacheControl) {
                         --cwd . \
                         --distId ${distId} \
                         --etag \
-                        --deleteRemoved \
                         --gzip xml,html,htm,js,css,ttf,otf,svg,txt \
                         --invalidate "${invalidation}" \
                         --cacheControl "${cacheControl}" `;
